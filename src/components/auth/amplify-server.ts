@@ -16,7 +16,7 @@ const config = {
     }
 }
 
-console.log("Config", config);
+console.log("Cognito user pool", config.Auth.Cognito.userPoolId);
 
 const { runWithAmplifyServerContext } = createServerRunner({config});
 
@@ -26,10 +26,7 @@ export async function getCurrentUserServer() {
             nextServerContext: { cookies },
             operation: async (contextSpec) => {
                 const session = await fetchAuthSession(contextSpec);
-                //console.log(session)bun dev
-
-                // const exp = new Date(session.tokens?.idToken?.payload.exp! * 1000);
-                // console.log("Expiry", exp)
+                //console.log(session)
                 return {
                     id: session.userSub as string,
                     email: session.tokens?.idToken?.payload.email as string,
