@@ -8,8 +8,13 @@ const meta = {
     tags: ["autodocs"],
     argTypes: {
         checked: { description: "The checked state of the checkbox" },
-        label: { description: "An optional label that will be displayed after the checkbox" },
-        className: { control: "string", description: "Optional classes to apply to the container" },
+        label: {
+            description: "An optional label that will be displayed after the checkbox",
+        },
+        className: {
+            control: "string",
+            description: "Optional classes to apply to the container",
+        },
     },
     // // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
     // args: { onClick: fn() },

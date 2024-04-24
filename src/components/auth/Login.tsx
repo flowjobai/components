@@ -1,23 +1,20 @@
 "use client";
 
 import "./auth.scss";
-import "@/amplify-client"
-import {Authenticator} from "@aws-amplify/ui-react";
-import { useRouter } from 'next/navigation';
+import "@/amplify-client";
+import { Authenticator } from "@aws-amplify/ui-react";
+import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
-import { Hub } from 'aws-amplify/utils';
-import {AuthUser} from "aws-amplify/auth";
+import { Hub } from "aws-amplify/utils";
+import { AuthUser } from "aws-amplify/auth";
 
 interface Props {
-    children?: React.ReactNode | ((props: {
-        signOut?: () => void;
-        user?: AuthUser;
-    }) => JSX.Element);
+    children?: React.ReactNode | ((props: { signOut?: () => void; user?: AuthUser }) => JSX.Element);
     onChange?: (event: string) => void;
 }
 
 // https://ui.docs.amplify.aws/react/connected-components/authenticator
-export default function({ children, onChange }: Props) {
+export default function ({ children, onChange }: Props) {
     const router = useRouter();
 
     useEffect(() => {
@@ -26,17 +23,12 @@ export default function({ children, onChange }: Props) {
             if (onChange) {
                 onChange(data.payload.event);
             }
-            // if (data.payload.event === "signedIn") {
-            //     router.push("/app/build");
-            // }
         });
     }, []);
 
     return (
-        <Authenticator loginMechanisms={['email']} hideSignUp={true}>
+        <Authenticator loginMechanisms={["email"]} hideSignUp={true}>
             {children}
         </Authenticator>
     );
 }
-
-

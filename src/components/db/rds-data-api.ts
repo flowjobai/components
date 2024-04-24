@@ -14,8 +14,7 @@ if (process.env.ACCESS_KEY_ID && process.env.SECRET_ACCESS_KEY) {
         },
         region: process.env.REGION,
     });
-}
-else {
+} else {
     rdsDataApi = new RDSDataClient({
         region: process.env.REGION,
     });
@@ -24,7 +23,7 @@ else {
 const database = {
     resourceArn: process.env.DATA_API_ARN,
     secretArn: process.env.DATA_API_SECRET_ARN,
-    database: process.env.DATA_API_DATABASE
+    database: process.env.DATA_API_DATABASE,
 };
 
 interface Field {
@@ -41,7 +40,12 @@ interface ExecuteResult {
 //https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/rds-data/command/ExecuteStatementCommand/
 export async function execute(sql: string, params?: Record<string, any>): Promise<ExecuteResult> {
     const parameters: SqlParameter[] = params ? Object.entries(params).map(([key, value]) => asParameter(key, value)) : [];
-    const command = new ExecuteStatementCommand({ sql, parameters, ...database, includeResultMetadata: true });
+    const command = new ExecuteStatementCommand({
+        sql,
+        parameters,
+        ...database,
+        includeResultMetadata: true,
+    });
     // try {
     const rows: Record<string, any>[] = [];
     const { columnMetadata, records, numberOfRecordsUpdated } = await rdsDataApi.send(command);
@@ -63,13 +67,25 @@ export async function execute(sql: string, params?: Record<string, any>): Promis
                 switch (typeName) {
                     case "timestamp":
                         const date = new Date(value);
-                        row[name!] = { type: "date", value: date, fmt: value === null ? "" : speeddate.cached("DD MMM HH:mm", date) };
+                        row[name!] = {
+                            type: "date",
+                            value: date,
+                            fmt: value === null ? "" : speeddate.cached("DD MMM HH:mm", date),
+                        };
                         break;
                     case "int4":
-                        row[name!] = { type: "number", value, fmt: value === null ? "" : value.toLocaleString("en-US") };
+                        row[name!] = {
+                            type: "number",
+                            value,
+                            fmt: value === null ? "" : value.toLocaleString("en-US"),
+                        };
                         break;
                     default:
-                        row[name!] = { type: "string", value, fmt: value === null ? "" : value }; // The value is already the correct type
+                        row[name!] = {
+                            type: "string",
+                            value,
+                            fmt: value === null ? "" : value,
+                        }; // The value is already the correct type
                 }
             }
             rows.push(row);
@@ -90,7 +106,11 @@ export function formatted(rows: Record<string, Field>[]): Record<string, string>
 export async function batch(sql: string, params: Record<string, any>[]) {
     homogeniseFields(sql, params);
     const parameterSets: SqlParameter[][] = params ? params.map((param) => Object.entries(param).map(([key, value]) => asParameter(key, value))) : [];
-    const command = new BatchExecuteStatementCommand({ sql, parameterSets, ...database });
+    const command = new BatchExecuteStatementCommand({
+        sql,
+        parameterSets,
+        ...database,
+    });
     const result = await rdsDataApi.send(command);
 }
 

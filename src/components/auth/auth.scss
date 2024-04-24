@@ -1,5 +1,5 @@
-
-legend, .amplify-heading {
+legend,
+.amplify-heading {
     @apply text-2xl font-medium;
 }
 
@@ -10,7 +10,6 @@ legend, .amplify-heading {
     @apply flex flex-col gap-2;
 }
 .amplify-field-group {
-
     .amplify-field-group__field-wrapper {
         @apply flex-1;
 
@@ -79,4 +78,3 @@ div[data-amplify-footer] {
         transform: rotate(480deg);
     }
 }
-
