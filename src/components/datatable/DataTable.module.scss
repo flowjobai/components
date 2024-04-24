@@ -1,0 +1,20 @@
+.data-table {
+    th {
+        @apply text-sm font-medium text-left p-2 overflow-hidden border-r whitespace-nowrap overflow-ellipsis bg-slate-100 border-b h-full;
+        &:last-child {
+            @apply p-0 border-r-0;
+        }
+    }
+    td {
+        @apply h-10 text-sm text-left border-b px-2 border-r overflow-hidden flex items-center;
+        &:last-child {
+            @apply p-0 border-r-0;
+        }
+        & > div {
+            @apply w-full whitespace-nowrap overflow-hidden overflow-ellipsis;
+        }
+    }
+}
+.select {
+    @apply p-0 flex items-center justify-center #{!important};
+}
