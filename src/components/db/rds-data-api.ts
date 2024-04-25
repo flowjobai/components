@@ -32,10 +32,24 @@ export interface Field {
     fmt: string;
 }
 
-interface ExecuteResult {
-    rows: Record<string, Field>[];
-    updated: number;
+class ExecuteResult {
+    constructor(public rows: Record<string, Field>[], public updated: number) {}
+
+    single() {
+        return this.rows[0];
+    }
+    singleValues() {
+        return Object.fromEntries(Object.entries(this.rows[0]).map(([key, field]) => [key, field.value]));
+    }
+    formatted() {
+        return Object.fromEntries(Object.entries(this.rows).map(([key, field]) => [key, field.fmt]));
+    }
+    values() {
+        return Object.fromEntries(Object.entries(this.rows).map(([key, field]) => [key, field.value]));
+    }
 }
+
+
 
 //https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/rds-data/command/ExecuteStatementCommand/
 export async function execute(sql: string, params?: Record<string, any>): Promise<ExecuteResult> {
@@ -91,7 +105,7 @@ export async function execute(sql: string, params?: Record<string, any>): Promis
             rows.push(row);
         }
     }
-    return { rows, updated: numberOfRecordsUpdated || 0 };
+    return new ExecuteResult(rows, numberOfRecordsUpdated || 0);
     // }
     // catch (err) {
     //     return err;
