@@ -9,9 +9,9 @@ import { fetchAuthSession } from "aws-amplify/auth/server";
 const config = {
     Auth: {
         Cognito: {
-            userPoolId: process.env.COGNITO_USER_POOL_ID!,
-            userPoolClientId: process.env.COGNITO_USER_POOL_CLIENT_ID!,
-            region: process.env.REGION!,
+            userPoolId: (process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID || process.env.COGNITO_USER_POOL_ID)!,
+            userPoolClientId: (process.env.NEXT_PUBLIC_COGNITO_USER_POOL_CLIENT_ID || process.env.COGNITO_USER_POOL_CLIENT_ID)!,
+            region: (process.env.NEXT_PUBLIC_REGION || process.env.REGION)!,
         },
     },
 };

@@ -26,7 +26,7 @@ const database = {
     database: process.env.DATA_API_DATABASE,
 };
 
-interface Field {
+export interface Field {
     type: "string" | "number" | "boolean" | "json" | "date";
     value: any;
     fmt: string;

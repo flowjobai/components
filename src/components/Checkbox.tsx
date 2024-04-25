@@ -25,10 +25,7 @@ export default function ({ checked, label, className }: Props) {
     }
     return (
         <div
-            className={clsx("size-4 border rounded-[3px]", className, {
-                "bg-theme-500 border-theme-500": checked,
-                "border-slate-400": !checked,
-            })}
+            className={clsx("size-4 border rounded-[3px] p-0 flex items-center justify-center flex-grow-0", className, { "bg-theme-500 border-theme-500": checked, "border-slate-400": !checked })}
         >
             {checked && <Check strokeWidth={4} stroke="white" className="w-full h-full" />}
         </div>

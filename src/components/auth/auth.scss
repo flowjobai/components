@@ -30,7 +30,7 @@ legend,
     @apply py-3 rounded-md uppercase font-medium tracking-widest text-sm;
 }
 .amplify-button--primary {
-    @apply bg-primary text-white flex justify-center hover:bg-pri-700;
+    @apply bg-primary text-white flex justify-center hover:bg-theme-700;
 }
 //Forgot password container
 div[data-amplify-footer] {
